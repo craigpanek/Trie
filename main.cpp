@@ -6,21 +6,21 @@
 #include "myTrie.h"
 using namespace std;
 
-
-
 int main() {
 	Trie trie;
 
-	trie.add("apple");
-	trie.printChildren();
+	trie.insert("apple");
+	trie.insert("apply");
+	trie.insert("orange");
+	trie.insert("or");
 
-	trie.add("app");
-	trie.printChildren();
+	cout << "apple is a word: " << trie.exists("apple") << endl;
+	cout << "apply is a word: " << trie.exists("apply") << endl;
+	cout << "orange is a word: " << trie.exists("orange") << endl;
+	cout << "oranges is a word: " << trie.exists("oranges") << endl;
+	cout << "or is a word: " << trie.exists("orange") << endl;
+	cout << "app is a word: " << trie.exists("app") << endl;
 
-	trie.add("ape");
-	trie.printChildren();
-
-	cout << "main end" << endl;
-
+	system("pause"); // if needed, comment out but don't delete
 	return 0;
 }

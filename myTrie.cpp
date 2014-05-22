@@ -9,32 +9,9 @@ using namespace std;
 
 Trie::Trie() {
 	root = new trieNode();
-
-	// manually inserted characters
-	trieNode *currentNode;
-	root->character = 'a';
-
-	root->children = new trieNode;
-	currentNode = root->children;
-	currentNode->character = 'p';
-	currentNode->children = new trieNode;
-	currentNode = currentNode->children;
-	currentNode->character = 'p';
-	printChildren();
-	cout << endl;
 }
 
-void Trie::printChildren() const {
-	trieNode *currentNode = root;
-
-	while (currentNode != NULL) {
-		cout << currentNode->character << " ";
-		currentNode = currentNode->children;
-	}
-	cout << endl;
-}
-
-void Trie::add(string word) {
+void Trie::insert(string word) {
     trieNode *currentNode = root;
 
     while (word.size() > 0) {
@@ -55,7 +32,7 @@ void Trie::add(string word) {
 
 trieNode* Trie::insertAtLevel(char ch, trieNode *currentNode, bool endWord) {
 
-	if(currentNode->character == '*') { // at a newly created empty node
+	if(currentNode->character == '\0') { // at a newly created empty node
 	    currentNode->character = ch;
 	    if (endWord) {
 	        currentNode->isWord = true;
@@ -84,16 +61,90 @@ trieNode* Trie::insertAtLevel(char ch, trieNode *currentNode, bool endWord) {
 	return currentNode;
 }
 
-
 bool Trie::exists(string word) {
-	return false;
+
+	trieNode *currentNode = root;
+
+	//int charLevel = 0;
+	//int maxCharLevel = word.size() - 1;
+	bool exists = false;
+
+	while (word.size() > 0 && !exists) {
+		char currentChar = word[0];
+		word = word.substr(1, word.size() - 1);
+		bool endWord = (word.size() == 0);
+		currentNode = existsAtLevel(currentChar, currentNode, endWord, exists);
+
+		if (!endWord && currentNode != NULL) { // go down to next level
+			currentNode = currentNode->children;
+		}
+	}
+
+	if (exists) {
+		return true;
+	} else return false;
 }
 
-bool Trie::remove(string word) {
-	if (exists(word)) {
-		return true; // removed
+trieNode* Trie::existsAtLevel(char ch, trieNode *currentNode, bool endWord, bool &exists) {
+
+	bool found = false;
+	//assert(currentNode != NULL);
+	trieNode *previousNode;
+
+	while (currentNode != NULL) {
+		if (currentNode->character == ch) {
+
+			if (endWord && currentNode->isWord) {
+				exists = true;
+			}
+			//cout << "character found: " << ch << endl; // trace
+			found = true;
+			return currentNode;
+		}
+		else {
+			//cout << "character not found: " << ch << endl; // trace
+			previousNode = currentNode;
+			currentNode = currentNode->sibling;
+		}
 	}
-	else {
-		return false; // not removed
+
+	if (!found) {
+		exists = false;
 	}
+}
+
+void Trie::printChildren() const {
+	trieNode *currentNode = root;
+
+	while (currentNode != NULL) {
+		cout << currentNode->character << " ";
+		currentNode = currentNode->children;
+	}
+	cout << endl;
+}
+
+void Trie::specialPrint() const {
+	trieNode *currentNode = root;
+
+	cout << currentNode->character << " ";
+	currentNode = currentNode->children;
+
+	cout << currentNode->character << " ";
+	currentNode = currentNode->children;
+
+	cout << currentNode->character << " ";
+	currentNode = currentNode->children;
+
+	cout << currentNode->character << " ";
+	currentNode = currentNode->children;
+
+	currentNode = currentNode->sibling;
+
+	cout << currentNode->character << " ";
+
+	cout << endl;
+}
+
+void Trie::printAll() const {
+	trieNode *currentNode = root;
 }

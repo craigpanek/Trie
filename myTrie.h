@@ -15,7 +15,7 @@ class trieNode {
         bool isWord;
 
         trieNode() {
-            character = '*';
+            character = '\0';
             sibling = NULL;
             children = NULL;
             isWord = false;
@@ -25,12 +25,15 @@ class trieNode {
 class Trie {
 	public:
 		Trie();
-		void add(string word);
+		void insert(string word);
 		bool exists(string word);
 		bool remove(string word);
 		void printChildren() const;
+		void specialPrint() const;
+		void printAll() const;
 	private:
 		trieNode* insertAtLevel(char ch, trieNode *currentNode, bool endWord);
+		trieNode* existsAtLevel(char ch, trieNode *currentNode, bool endWord, bool &exists);
 		trieNode *root;
 };
 
