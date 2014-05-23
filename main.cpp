@@ -5,9 +5,21 @@
 #include <conio.h>
 #include "myTrie.h"
 using namespace std;
+#include "Lexicon.h"
 
 int main() {
-	Trie trie;
+
+    Lexicon lexicon("Enhanced North American Benchmark Lexicon.txt");
+    string word;
+
+    cout << "Enter words to be checked. Enter EOF (Ctrl-z on Windows) when you are done\n";
+    cin >> word;
+    while (!cin.eof()) {
+        cout << word << " is" << (lexicon.isWord(word) ? "":" NOT") << " a word\n";
+        cin >> word;
+    }
+/*
+    Trie trie;
 
 	trie.insert("apple");
 	trie.insert("apply");
@@ -21,6 +33,7 @@ int main() {
 	cout << "or is a word: " << trie.exists("orange") << endl;
 	cout << "app is a word: " << trie.exists("app") << endl;
 
-	system("pause"); // if needed, comment out but don't delete
+	//system("pause"); // if needed, comment out but don't delete
+*/
 	return 0;
 }

@@ -41,7 +41,7 @@ trieNode* Trie::insertAtLevel(char ch, trieNode *currentNode, bool endWord) {
 	}
 
     bool found = false;
-    trieNode *previousNode = NULL; // must initialize for first compile in VS2013
+    trieNode *previousNode;
     assert(currentNode != NULL);
 	while (currentNode != NULL && !found) {
 		if (currentNode->character == ch) {
@@ -64,7 +64,6 @@ trieNode* Trie::insertAtLevel(char ch, trieNode *currentNode, bool endWord) {
 bool Trie::exists(string word) {
 
 	trieNode *currentNode = root;
-
 	bool exists = false;
 
 	while (word.size() > 0 && !exists) {
@@ -72,38 +71,34 @@ bool Trie::exists(string word) {
 		word = word.substr(1, word.size() - 1);
 		bool endWord = (word.size() == 0);
 		currentNode = existsAtLevel(currentChar, currentNode, endWord, exists);
-
-		if (!endWord && currentNode != NULL) { // go down to next level
+		if (exists == true) // return true if word exists
+		    return true;
+		if(currentNode == NULL) // return false if letter didn't exist
+		    return false;
+		if (!endWord) { // go down to next level
 			currentNode = currentNode->children;
+			if (currentNode == NULL) // return false if we can't go down a level
+			    return false;
 		}
 	}
-
-	if (exists) {
-		return true;
-	} else return false;
+	return false;
 }
 
 trieNode* Trie::existsAtLevel(char ch, trieNode *currentNode, bool endWord, bool &exists) {
 
-	bool found = false;
-	//assert(currentNode != NULL);
 	trieNode *previousNode;
-
 	while (currentNode != NULL) {
 		if (currentNode->character == ch) {
-
-			if (endWord && currentNode->isWord) {
-				exists = true;
-			}
-			return currentNode;
+		    if (endWord && currentNode->isWord) {
+		        exists = true;
+		    }
+		    return currentNode;
 		}
 		else {
-			previousNode = currentNode;
-			currentNode = currentNode->sibling;
+		    previousNode = currentNode;
+		    currentNode = currentNode->sibling;
 		}
 	}
-	
-	exists = false;
 	return currentNode;
 }
 
@@ -140,5 +135,5 @@ void Trie::specialPrint() const {
 }
 
 void Trie::printAll() const {
-	trieNode *currentNode = root;
+	//trieNode *currentNode = root;
 }
