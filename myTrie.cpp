@@ -41,7 +41,7 @@ trieNode* Trie::insertAtLevel(char ch, trieNode *currentNode, bool endWord) {
 	}
 
     bool found = false;
-    trieNode *previousNode;
+    trieNode *previousNode = NULL; // must initialize for first compile in VS2013
     assert(currentNode != NULL);
 	while (currentNode != NULL && !found) {
 		if (currentNode->character == ch) {
@@ -65,8 +65,6 @@ bool Trie::exists(string word) {
 
 	trieNode *currentNode = root;
 
-	//int charLevel = 0;
-	//int maxCharLevel = word.size() - 1;
 	bool exists = false;
 
 	while (word.size() > 0 && !exists) {
@@ -97,20 +95,16 @@ trieNode* Trie::existsAtLevel(char ch, trieNode *currentNode, bool endWord, bool
 			if (endWord && currentNode->isWord) {
 				exists = true;
 			}
-			//cout << "character found: " << ch << endl; // trace
-			found = true;
 			return currentNode;
 		}
 		else {
-			//cout << "character not found: " << ch << endl; // trace
 			previousNode = currentNode;
 			currentNode = currentNode->sibling;
 		}
 	}
-
-	if (!found) {
-		exists = false;
-	}
+	
+	exists = false;
+	return currentNode;
 }
 
 void Trie::printChildren() const {
