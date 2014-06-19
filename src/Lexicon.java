@@ -31,32 +31,18 @@ class Lexicon {
 	}
 
 	/**
-	 * Loads lexicon from lexiconFileName, exiting with an error message on
-	 * stderr if lexiconFileName cannot be opened.
+	 * Loads lexicon from lexiconFileName, throwing an error message on
+	 * if lexiconFileName cannot be opened.
 	 * @param lexiconFileName the file name that contains the list of words.
 	 * @throws FileNotFoundException 
 	 */
 	public void loadLexicon(String lexiconFileName) throws FileNotFoundException {
-	    File inputFile = new File("Enhanced North American Benchmark Lexicon.txt");
+	    File inputFile = new File(lexiconFileName);
 	    Scanner in = new Scanner(inputFile);
 	    while(in.hasNext()) {
 	    	String word = in.next();
 	    	trie.insert(word);
 	    }
 	    in.close();
-		/*
-	    ifstream inWords;
-	    string word;
-
-	    inWords.open(lexiconFileName.c_str());
-	    if(!inWords) {
-	        cerr << "ERROR - file \"" << lexiconFileName << "\" does not exist!";
-	        exit(1);
-	    }
-
-	    while(inWords >> word) {
-	        trie.insert(word);
-	    }
-	    inWords.close();*/
 	}
 }

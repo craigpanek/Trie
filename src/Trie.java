@@ -4,14 +4,12 @@ class TrieNode {
     public TrieNode sibling;
     public TrieNode children;
     public boolean isWord;
-    public boolean exists;
 	
     TrieNode() {
         character = '\0';
         sibling = null;
         children = null;
         isWord = false;
-        exists = false;
     }
 };
 
@@ -44,15 +42,14 @@ class Trie {
 	
 	public boolean exists(String word) {
 		TrieNode currentNode = root;
-		Exists exists = new Exists();
-		exists.exists = false;
+		boolean[] exists = { false };
 
-		while (word.length() > 0 && !exists.exists) {
+		while (word.length() > 0 && !exists[0]) {
 			char currentChar = word.charAt(0);
 			word = word.substring(1, word.length());
 			boolean endWord = (word.length() == 0);
 			currentNode = existsAtLevel(currentChar, currentNode, endWord, exists);
-			if (exists.exists == true) // return true if word exists
+			if (exists[0] == true) // return true if word exists
 			    return true;
 			if(currentNode == null) // return false if letter didn't exist
 			    return false;
@@ -65,49 +62,12 @@ class Trie {
 		return false;
 	}
 	
-/*	public boolean remove(String word) {
-		
-	}*/
-	
-	public void printChildren() {/*
-		trieNode *currentNode = root;
-
-		while (currentNode != NULL) {
-			cout << currentNode->character << " ";
-			currentNode = currentNode->children;
-		}
-		cout << endl;*/
-	}
-	
-	public void specialPrint() {/*
-		trieNode *currentNode = root;
-
-		cout << currentNode->character << " ";
-		currentNode = currentNode->children;
-
-		cout << currentNode->character << " ";
-		currentNode = currentNode->children;
-
-		cout << currentNode->character << " ";
-		currentNode = currentNode->children;
-
-		cout << currentNode->character << " ";
-		currentNode = currentNode->children;
-
-		currentNode = currentNode->sibling;
-
-		cout << currentNode->character << " ";
-
-		cout << endl;*/
-	}
-	
 	private TrieNode insertAtLevel(char ch, TrieNode currentNode, boolean endWord) {
 
 		if(currentNode.character == '\0') { // at a newly created empty node
 			currentNode.character = ch;
-		    if (endWord) {
+		    if (endWord)
 		        currentNode.isWord = true;
-		    }
 		    return currentNode;
 		}
 
@@ -115,9 +75,9 @@ class Trie {
 	    TrieNode previousNode = null;
 //	    assert(currentNode != NULL);
 		while (currentNode != null && !found) {
-			if (currentNode.character == ch) {
+			if (currentNode.character == ch)
 				found = true;
-			} else {
+			else {
 			    previousNode = currentNode;
 			    currentNode = currentNode.sibling;
 			}
@@ -132,20 +92,16 @@ class Trie {
 		return currentNode;
 	}
 
-	private TrieNode existsAtLevel(char ch, TrieNode currentNode, boolean endWord, Exists exists) {
+	private TrieNode existsAtLevel(char ch, TrieNode currentNode, boolean endWord, boolean[] exists) {
 		
-		TrieNode previousNode;
 		while (currentNode != null) {
 			if (currentNode.character == ch) {
-			    if (endWord && currentNode.isWord) {
-			        exists.exists = true;
-			    }
+			    if (endWord && currentNode.isWord)
+			        exists[0] = true;
 			    return currentNode;
 			}
-			else {
-			    previousNode = currentNode;
+			else
 			    currentNode = currentNode.sibling;
-			}
 		}
 		return currentNode;
 	}
