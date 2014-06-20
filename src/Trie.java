@@ -1,3 +1,15 @@
+/**
+ * This class represents a trie data structure.
+ * It can hold words such that quick word searches are possible.
+ * @author Craig Panek
+ * @author Peter Nguyen
+ * Date: 6-19-2014
+ */
+
+/** 
+ * The TrieNode class is used only by the Trie class.
+ * A TrieNode represents one node in the trie structure.
+ */
 class TrieNode {
     
 	public char character;
@@ -13,14 +25,24 @@ class TrieNode {
     }
 };
 
+/**
+ * The Trie class is a data structure which contains multiple TrieNodes.
+ * A Trie holds words within the structure, and allows fast word searches.
+ */
 class Trie {
 	
 	private TrieNode root;
 	
+	/**
+	 * Create a root node to initialize the trie. 
+	 */
 	public Trie() {
 		root = new TrieNode();
 	}
 	
+	/**
+	 * Insert a given word into the trie (duplicates are not possible).
+	 */
 	public void insert(String word) {
 	    TrieNode currentNode = root;
 
@@ -40,6 +62,10 @@ class Trie {
 	    }
 	}
 	
+	/**
+	 * @param word
+	 * @return true if the given words exists in trie, false otherwise
+	 */
 	public boolean exists(String word) {
 		TrieNode currentNode = root;
 		boolean[] exists = { false };
@@ -62,6 +88,13 @@ class Trie {
 		return false;
 	}
 	
+	/**
+	 * Insert a letter at a given 'level' in the trie data structure.
+	 * @param ch the letter to be inserted into the trie
+	 * @param currentNode the node from which we start
+	 * @param endWord is true if this is the final letter of the word
+	 * @return the current node
+	 */
 	private TrieNode insertAtLevel(char ch, TrieNode currentNode, boolean endWord) {
 
 		if(currentNode.character == '\0') { // at a newly created empty node
@@ -92,6 +125,14 @@ class Trie {
 		return currentNode;
 	}
 
+	/**
+	 * Returns the node we will use for the new letter at the present level
+	 * @param ch the letter we are looking for
+	 * @param currentNode the starting node
+	 * @param endWord tells us if we are looking for the last letter in the word
+	 * @param exists a modifiable boolean array value - will be set to true if the word exists
+	 * @return a trienode which holds the letter we seek (if there was such a node), null otherwise
+	 */
 	private TrieNode existsAtLevel(char ch, TrieNode currentNode, boolean endWord, boolean[] exists) {
 		
 		while (currentNode != null) {
